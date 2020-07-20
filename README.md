@@ -15,7 +15,7 @@ Bot Token and the database path are required.
 
 ## Docker
 
-There is a [ready-to-go Docker image in Docker Hub](https://hub.docker.com/r/sysadminita/birrometro_bot).
+There is a [ready-to-go Docker image in Docker Hub](https://hub.docker.com/r/sysadminita/birrometro-bot).
 
 ## Kubernetes
 
