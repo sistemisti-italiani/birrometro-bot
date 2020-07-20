@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: birrometro-bot-ingressroute
+  namespace: sistemisti-italiani
+  labels:
+    app: birrometro-bot
+spec:
+  entryPoints:
+    - web-secure
+  routes: # TODO
+    - match: Host(`????`)
+      kind: Rule
+      services:
+        - name: birrometro-bot
+          port: 80
+  tls:
+    certResolver: default # assuming LE is configured

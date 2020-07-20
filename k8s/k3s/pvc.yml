@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: birrometro-bot-db-pvc
+  namespace: sistemisti-italiani
+  labels:
+    app: birrometro-bot
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path # this PVC works with k3s / local-path-provisioner
+  resources:
+    requests:
+      storage: 2Gi

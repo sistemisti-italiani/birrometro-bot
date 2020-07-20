@@ -1,0 +1,7 @@
+.idea/
+*.iml
+.DS_Store
+.env
+*.wiki.git
+/bot
+/k8s/k3s/secrets.yml

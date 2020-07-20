@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: birrometro-bot
+  namespace: sistemisti-italiani
+  labels:
+    app: birrometro-bot
+spec:
+  selector:
+    matchLabels:
+      app: birrometro-bot
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: birrometro-bot
+    spec:
+      containers: # Remember to use the SHA value if your're deploying this in prod
+        - name: birrometro-bot
+          image: sysadminita/birrometro-bot:latest
+          env:
+            - name: CFG_LOG_LEVEL
+              value: "debug"
+            - name: CFG_DB_PATH
+              value: "/db/birrometro.db"
+            - name: CFG_APP_GROUP
+              valueFrom:
+                secretKeyRef:
+                  name: birrometro-bot-secrets
+                  key: groupId
+            - name: CFG_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: birrometro-bot-secrets
+                  key: botToken
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+              - name: botdb
+                mountPath: "/db"
+      volumes:
+        - name: botdb
+          persistentVolumeClaim:
+            claimName: birrometro-bot-db-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: birrometro-bot
+  namespace: sistemisti-italiani
+  labels:
+    app: birrometro-bot
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: birrometro-bot
